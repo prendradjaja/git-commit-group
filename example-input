@@ -1,0 +1,27 @@
+* Basic frontend. only thing this ex-input misses is indented strikethroughed commit
+  # 05274b2 'front' Move NPS pr
+  # 9a16e60 'front' dont log ou
+  # @ 28eab20
+* Prompt timing
+  # 89c8772 'front, back' Multi
+  # a066ad1 'back' rename some 
+  # ccd7587 'back' shouldShowNP
+  # d901d4c 'back' Quietly igno
+  # 3c1fc6a 'back' check joined
+  # 5d8f69b 'back' Prompt new u
+  # 5701ae3 'back' Dont save "c
+  # d901d4c 'back' Quietly igno
+  # a9ee1c0 'back' outdated req
+  # aa3ca76 'back' Bugfix: getN
+  # 62a5d74 'back' Oops, six mo
+  # @ 3f34716
+* Postpone and decline
+  # f224cd6 'back' Multiple thi
+  # 00d214d 'back' Implement po
+  # efb669c 'front' WIP styling
+# 3f34716 'back' Refactor const
+# 01f613e 'front' Styling on in
+# 28eab20 'front' Auto-expire w
+# 83bd8ac 'test' test plan
+# a122898 'front' Tweak main pr
+# a018f6a 'front' Styling: "Tha

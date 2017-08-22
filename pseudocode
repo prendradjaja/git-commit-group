@@ -1,0 +1,5 @@
+first pass: find symlinked commits
+
+sections: format
+commits: format unless symlinked
+symlinks: format
