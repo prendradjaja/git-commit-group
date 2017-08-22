@@ -3,7 +3,6 @@ from tokens import Section, Indent, Commit, Symlink, PRLink
 
 # TODO
 # - links
-# - no line break btwn unsorted commits (reqs paragraph detection)
 # - maybe use OOP to avoid passing many args
 
 def main():
@@ -24,8 +23,18 @@ def main():
 
     # Second pass: Format output
     print_header()
+    prev_line_was_indented = False
     for line in parsed_file:
         is_indented = False
+
+        # Check indentation so we can add newline after an indented block
+        if is_indent(line[0]):
+            prev_line_was_indented = True
+        else:
+            if prev_line_was_indented:
+                print()
+            prev_line_was_indented = False
+
         for token in line:
             if is_indent(token):
                 is_indented = True
@@ -85,7 +94,7 @@ def print_bullet(is_indented):
     if is_indented:
         print('* ', end='')
     else:
-        print('\n• ', end='')
+        print('• ', end='')
 
 def parse_line(line):
     line = line.rstrip()
