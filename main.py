@@ -1,5 +1,5 @@
 import fileinput
-from tokens import Section, Indent, Commit, Symlink, PRLink
+from tokens import Section, Indent, Commit, Symlink, PRLink, HorizRule
 
 # TODO
 # - links
@@ -51,6 +51,8 @@ def main():
                 print_symlink(token, is_indented, pr_url)
             elif is_prlink(token):
                 pass
+            elif is_horizrule(token):
+                print_horizrule()
             else:
                 raise ValueError
 
@@ -102,10 +104,15 @@ def print_bullet(is_indented):
     else:
         print('• ', end='')
 
+def print_horizrule():
+    print('----')
+
 def parse_line(line):
     line = line.rstrip()
     if line == '':  # may not be needed
         return []
+    elif line == '----':
+        return [HorizRule()]
     elif line.startswith('  '):
         return [Indent()] + parse_line(line[2:])
     elif line.startswith('* '):
@@ -138,6 +145,9 @@ def is_section(token):
 
 def is_prlink(token):
     return type(token).__name__ == 'PRLink'
+
+def is_horizrule(token):
+    return type(token).__name__ == 'HorizRule'
 
 if __name__ == '__main__':
     main()
