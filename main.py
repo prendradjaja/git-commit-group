@@ -11,7 +11,13 @@ import sys
 # - give line number on error
 
 def main():
-    parsed_file = [parse_line(line) for line in fileinput.input()]
+    # Parse
+    parsed_file = []
+    for i, line in enumerate(fileinput.input(), 1):
+        try:
+            parsed_file.append(parse_line(line))
+        except Exception as e:
+            fail(i, e, 'parsing')
 
     # for line in parsed_file:
     #     print(' ' * 2 * len(line), line)
@@ -27,7 +33,7 @@ def main():
                 if is_prlink(token):
                     pr_url = token.url
         except Exception as e:
-            fail(i, e)
+            fail(i, e, 'first pass')
 
     # Second pass: Format output
     print_header()
@@ -61,10 +67,10 @@ def main():
                 else:
                     raise ValueError
         except Exception as e:
-            fail(i, e)
+            fail(i, e, 'second pass')
 
-def fail(lineno, exc):
-    print('Error on line', lineno, file=sys.stderr)
+def fail(lineno, exc, stage):
+    print('Error on line', lineno, 'during', stage, file=sys.stderr)
     # raise exc
     exit(1)
 
