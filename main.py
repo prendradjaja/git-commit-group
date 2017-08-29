@@ -10,6 +10,8 @@ import sys
 # - a tool for checking if you're up-to-date with all commits
 # - give line number on error
 
+VERBOSE_ERRORS = True
+
 def main():
     # Parse
     parsed_file = []
@@ -70,8 +72,10 @@ def main():
             fail(i, e, 'second pass')
 
 def fail(lineno, exc, stage):
-    print('Error on line', lineno, 'during', stage, file=sys.stderr)
-    # raise exc
+    print('\nError on line', lineno, 'during', stage, file=sys.stderr)
+    if VERBOSE_ERRORS:
+        print()
+        raise exc
     exit(1)
 
 header = """## Logical commit groups
