@@ -1,5 +1,6 @@
 import fileinput
 from tokens import Section, Indent, Commit, Symlink, PRLink, HorizRule
+import sys
 
 # TODO
 # - links
@@ -18,43 +19,54 @@ def main():
     # First pass: Find symlinked commits and PR link
     symlinked = set()
     pr_url = None
-    for line in parsed_file:
-        for token in line:
-            if is_symlink(token):
-                symlinked.add(token.commithash)
-            if is_prlink(token):
-                pr_url = token.url
+    for i, line in enumerate(parsed_file, 1):
+        try:
+            for token in line:
+                if is_symlink(token):
+                    symlinked.add(token.commithash)
+                if is_prlink(token):
+                    pr_url = token.url
+        except Exception as e:
+            fail(i, e)
 
     # Second pass: Format output
     print_header()
     prev_line_was_indented = False
-    for line in parsed_file:
-        is_indented = False
+    for i, line in enumerate(parsed_file, 1):
+        try:
+            is_indented = False
 
-        # Check indentation so we can add newline after an indented block
-        if is_indent(line[0]):
-            prev_line_was_indented = True
-        else:
-            if prev_line_was_indented:
-                print()
-            prev_line_was_indented = False
-
-        for token in line:
-            if is_indent(token):
-                is_indented = True
-            elif is_section(token):
-                print_section(token)
-            elif is_commit(token):
-                is_symlinked = token.hash in symlinked
-                print_commit(token, is_indented, is_symlinked, pr_url)
-            elif is_symlink(token):
-                print_symlink(token, is_indented, pr_url)
-            elif is_prlink(token):
-                pass
-            elif is_horizrule(token):
-                print_horizrule()
+            # Check indentation so we can add newline after an indented block
+            if is_indent(line[0]):
+                prev_line_was_indented = True
             else:
-                raise ValueError
+                if prev_line_was_indented:
+                    print()
+                prev_line_was_indented = False
+
+            for token in line:
+                if is_indent(token):
+                    is_indented = True
+                elif is_section(token):
+                    print_section(token)
+                elif is_commit(token):
+                    is_symlinked = token.hash in symlinked
+                    print_commit(token, is_indented, is_symlinked, pr_url)
+                elif is_symlink(token):
+                    print_symlink(token, is_indented, pr_url)
+                elif is_prlink(token):
+                    pass
+                elif is_horizrule(token):
+                    print_horizrule()
+                else:
+                    raise ValueError
+        except Exception as e:
+            fail(i, e)
+
+def fail(lineno, exc):
+    print('Error on line', lineno, file=sys.stderr)
+    # raise exc
+    exit(1)
 
 header = """## Logical commit groups
 
