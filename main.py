@@ -127,7 +127,7 @@ def print_bullet(is_indented):
         print('• ', end='')
 
 def print_horizrule():
-    print('----')
+    print('\n----')
 
 def parse_line(line):
     line = line.rstrip()
