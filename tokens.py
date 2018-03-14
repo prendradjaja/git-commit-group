@@ -8,3 +8,4 @@ HorizRule = namedtuple('HorizRule', '')
 
 # Metadata -- if multiple, refactor?
 PRLink = namedtuple('PRLink', 'url')
+Comment = namedtuple('Comment', 'text')
