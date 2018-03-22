@@ -114,7 +114,7 @@ def print_commit(token, is_indented, is_symlinked, pr_url):
     if is_symlinked:
         print('~', end='')
     print_link_start(pr_url, token.hash)
-    print(token.hash, token.message, end='')
+    print('`'+token.hash+'`', token.message, end='')
     print_link_end(pr_url, token.hash)
     if is_symlinked:
         print('~', end='')
